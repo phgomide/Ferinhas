@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Programa de Apadrinhamento</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0c0d11;
+      --surface:   #13151c;
+      --surface2:  #1c1f2b;
+      --border:    #252836;
+      --accent:    #c9a84c;
+      --accent2:   #e8c97a;
+      --text:      #e8e6df;
+      --muted:     #7a7f96;
+      --tag-lab:   #1a2535;
+      --tag-lab-t: #6ea8d4;
+      --tag-int:   #1f2318;
+      --tag-int-t: #8ab56a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: .03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px;
+    }
+
+    /* HERO */
+    header {
+      position: relative;
+      z-index: 1;
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: .7rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.4rem;
+    }
+
+    header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      max-width: 700px;
+      margin: 0 auto 1.5rem;
+    }
+
+    header h1 em { font-style: italic; color: var(--accent2); }
+
+    header p {
+      max-width: 540px;
+      margin: 0 auto;
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+
+    .divider { width: 40px; height: 1px; background: var(--accent); margin: 2rem auto 0; opacity: .6; }
+
+    /* GRID */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 4rem 2rem 6rem;
+    }
+
+    .grid-label { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: 2.5rem; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.5rem; }
+
+    /* CARD */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+      animation: fadeUp .5s ease both;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent);
+      box-shadow: 0 20px 40px rgba(0,0,0,.4), 0 0 0 1px rgba(201,168,76,.15);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card:nth-child(1) { animation-delay: .05s; }
+    .card:nth-child(2) { animation-delay: .10s; }
+    .card:nth-child(3) { animation-delay: .15s; }
+    .card:nth-child(4) { animation-delay: .20s; }
+    .card:nth-child(5) { animation-delay: .25s; }
+    .card:nth-child(6) { animation-delay: .30s; }
+
+    .card-img { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; filter: grayscale(20%) brightness(.9); transition: filter .3s ease; }
+    .card:hover .card-img { filter: grayscale(0%) brightness(1); }
+
+    .card-img-placeholder {
+      width: 100%; aspect-ratio: 4/5;
+      background: var(--surface2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem; font-weight: 300; color: var(--accent);
+    }
+
+    .card-body { padding: 1.1rem 1.2rem 1.3rem; }
+
+    .card-name { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; color: var(--text); line-height: 1.2; }
+
+    .card-tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .7rem; }
+
+    .tag { font-size: .62rem; letter-spacing: .04em; padding: .25rem .55rem; border-radius: 20px; font-weight: 500; }
+    .tag-lab { background: var(--tag-lab); color: var(--tag-lab-t); border: 1px solid rgba(110,168,212,.15); }
+    .tag-int { background: var(--tag-int); color: var(--tag-int-t); border: 1px solid rgba(138,181,106,.15); }
+
+    /* MODAL */
+    .overlay {
+      position: fixed; inset: 0;
+      background: rgba(6,7,10,.85);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s ease;
+    }
+
+    .overlay.open { opacity: 1; pointer-events: all; }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      max-width: 820px; width: 100%; max-height: 90vh;
+      overflow-y: auto;
+      display: grid; grid-template-columns: 280px 1fr;
+      transform: translateY(20px) scale(.98);
+      transition: transform .35s cubic-bezier(.22,1,.36,1);
+      scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+    }
+
+    .overlay.open .modal { transform: translateY(0) scale(1); }
+
+    .modal-img-col { position: sticky; top: 0; height: fit-content; }
+
+    .modal-img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 16px 0 0 16px; display: block; filter: grayscale(10%); }
+
+    .modal-img-placeholder {
+      width: 100%; aspect-ratio: 3/4;
+      background: var(--surface2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem; font-weight: 300; color: var(--accent);
+      border-radius: 16px 0 0 16px;
+    }
+
+    .modal-content { padding: 2.2rem 2.2rem 2.2rem 2rem; display: flex; flex-direction: column; gap: 1.4rem; }
+
+    .modal-close {
+      position: absolute; top: 1.2rem; right: 1.4rem;
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--muted); width: 34px; height: 34px; border-radius: 50%;
+      font-size: 1.1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: color .2s, border-color .2s;
+    }
+
+    .modal-close:hover { color: var(--text); border-color: var(--accent); }
+
+    .modal-overlay-wrapper { position: relative; }
+
+    .modal-name { font-family: 'Cormorant Garamond', serif; font-size: 2.1rem; font-weight: 400; line-height: 1.1; }
+
+    .modal-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+
+    .section-label { font-size: .65rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); margin-bottom: .5rem; }
+
+    .modal-bio { font-size: .95rem; line-height: 1.78; color: var(--muted); }
+
+    .modal-question {
+      background: var(--surface2);
+      border-left: 2px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 1.2rem 1.4rem;
+    }
+
+    .modal-question .section-label { margin-bottom: .6rem; }
+
+    .modal-question p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.08rem; font-style: italic; font-weight: 300; line-height: 1.8;
+    }
+
+    footer {
+      position: relative; z-index: 1;
+      text-align: center; padding: 2.5rem;
+      border-top: 1px solid var(--border);
+      font-size: .75rem; color: var(--muted); letter-spacing: .05em;
+    }
+
+    @media (max-width: 640px) {
+      .modal { grid-template-columns: 1fr; max-height: 92vh; }
+      .modal-img { aspect-ratio: 16/9; border-radius: 16px 16px 0 0; object-position: top; }
+      .modal-img-placeholder { aspect-ratio: 16/9; border-radius: 16px 16px 0 0; }
+      .modal-img-col { position: relative; }
+      .modal-content { padding: 1.5rem; }
+      header { padding: 3.5rem 1.5rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <span class="eyebrow">Universidade ✦ Veteranos</span>
+  <h1>Programa de<br><em>Apadrinhamento</em></h1>
+  <p>Meet people before you actually meet them.</p>
+  <div class="divider"></div>
+</header>
+
+<main>
+  <p class="grid-label">— Os teus padrinhos</p>
+  <div class="grid" id="grid"></div>
+</main>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true">
+  <div class="modal-overlay-wrapper">
+    <button class="modal-close" id="modalClose" aria-label="Fechar">✕</button>
+    <div class="modal" id="modal"></div>
+  </div>
+</div>
+
+<footer>Programa de Apadrinhamento &nbsp;·&nbsp; Todos os direitos reservados</footer>
+
+<script>
+    const people = [
+    {
+      name: "Jay Pee",
+      img: "",
+      labs: ["AntiCristo"],
+      interests: ["Mentira", "Terraria", "Brilhante"],
+      bio: "Eu você, um itamar e dois cachoros.",
+      question: "Sim"
+    }
+  ];
+
+  /* ── Construção automática das fichas ── */
+  const grid = document.getElementById('grid');
+
+  people.forEach((p, i) => {
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-label', `Ver perfil de ${p.name}`);
+
+    const imgHtml = p.img
+      ? `<img class="card-img" src="${p.img}" alt="${p.name}" loading="lazy" />`
+      : `<div class="card-img-placeholder">${initials(p.name)}</div>`;
+
+    const labTags = p.labs.map(l => `<span class="tag tag-lab">${l}</span>`).join('');
+    const intTags = p.interests.slice(0, 2).map(t => `<span class="tag tag-int">${t}</span>`).join('');
+
+    card.innerHTML = `
+      ${imgHtml}
+      <div class="card-body">
+        <p class="card-name">${p.name}</p>
+        <div class="card-tags">${labTags}${intTags}</div>
+      </div>
+    `;
+
+    card.addEventListener('click', () => openModal(i));
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openModal(i); });
+    grid.appendChild(card);
+  });
+
+  /* ── Modal ── */
+  const overlay  = document.getElementById('overlay');
+  const modal    = document.getElementById('modal');
+  const closeBtn = document.getElementById('modalClose');
+
+  function openModal(i) {
+    const p = people[i];
+
+    const imgHtml = p.img
+      ? `<img class="modal-img" src="${p.img}" alt="${p.name}" />`
+      : `<div class="modal-img-placeholder">${initials(p.name)}</div>`;
+
+    const labTags = p.labs.map(l => `<span class="tag tag-lab">${l}</span>`).join('');
+    const intTags = p.interests.map(t => `<span class="tag tag-int">${t}</span>`).join('');
+    const bioHtml = p.bio.split('\n\n').map(para => `<p class="modal-bio">${para}</p>`).join('');
+
+    modal.innerHTML = `
+      <div class="modal-img-col">${imgHtml}</div>
+      <div class="modal-content">
+        <h2 class="modal-name">${p.name}</h2>
+        <div>
+          <p class="section-label">Projetos &amp; Laboratórios</p>
+          <div class="modal-tags">${labTags}</div>
+        </div>
+        <div>
+          <p class="section-label">Interesses</p>
+          <div class="modal-tags">${intTags}</div>
+        </div>
+        <div>
+          <p class="section-label">Sobre mim</p>
+          ${bioHtml}
+        </div>
+        <div class="modal-question">
+          <p class="section-label">O que é o apadrinhamento para ti?</p>
+          <p>${p.question}</p>
+        </div>
+      </div>
+    `;
+
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  }
+
+  function closeModal() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  function initials(name) {
+    return name.split(' ').slice(0, 2).map(w => w[0]).join('');
+  }
+</script>
+</body>
+</html>
