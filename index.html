@@ -47,7 +47,6 @@
       background-size: 180px;
     }
 
-    /* HERO */
     header {
       position: relative;
       z-index: 1;
@@ -86,7 +85,6 @@
 
     .divider { width: 40px; height: 1px; background: var(--accent); margin: 2rem auto 0; opacity: .6; }
 
-    /* GRID */
     main {
       position: relative;
       z-index: 1;
@@ -99,7 +97,6 @@
 
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.5rem; }
 
-    /* CARD */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -149,7 +146,6 @@
     .tag-lab { background: var(--tag-lab); color: var(--tag-lab-t); border: 1px solid rgba(110,168,212,.15); }
     .tag-int { background: var(--tag-int); color: var(--tag-int-t); border: 1px solid rgba(138,181,106,.15); }
 
-    /* MODAL */
     .overlay {
       position: fixed; inset: 0;
       background: rgba(6,7,10,.85);
@@ -279,7 +275,6 @@
     }
   ];
 
-  /* ── Construção automática das fichas ── */
   const grid = document.getElementById('grid');
 
   people.forEach((p, i) => {
