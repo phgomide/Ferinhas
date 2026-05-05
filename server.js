@@ -28,7 +28,7 @@ app.use(express.json({ limit: '10kb' }));
 
 app.use('/api', routes);
 
-app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/images', express.static('/data/images'));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Legacy support
 
 app.use(express.static(path.join(__dirname, 'client', 'dist')));

@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
 
-const db = new sqlite3.Database('./database.sqlite');
+const db = new sqlite3.Database('/data/database.sqlite');
 
 db.serialize(() => {
     db.run(`
