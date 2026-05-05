@@ -4,6 +4,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "postinstall": "npm --prefix ./node_modules/sqlite3 install",
     "build": "npm install && npm --prefix client install && npm --prefix client run build"
   },
   "dependencies": {
