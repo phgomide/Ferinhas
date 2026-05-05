@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { getImageUrl } from '../utils/helpers';
 
 export default function Perfil({ session, editingUserId, navigateTo }) {
     const [formData, setFormData] = useState({
@@ -105,7 +106,7 @@ export default function Perfil({ session, editingUserId, navigateTo }) {
                             <label className="apply-label">Foto de Perfil (Máx 2MB)</label>
                             <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                                 {imgPreview && (
-                                    <img src={imgPreview} alt="Preview" style={{ width: '40px', height: '40px', borderRadius: '4px', objectFit: 'cover', border: '1px solid var(--border)' }} />
+                                    <img src={getImageUrl(imgPreview)} alt="Preview" style={{ width: '40px', height: '40px', borderRadius: '4px', objectFit: 'cover', border: '1px solid var(--border)' }} />
                                 )}
                                 <input className="apply-input" type="file" accept="image/png, image/jpeg, image/webp" style={{ padding: '.5rem', flex: 1 }} ref={fileInputRef} onChange={handleFileChange} />
                             </div>

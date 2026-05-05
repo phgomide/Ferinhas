@@ -6,10 +6,17 @@ export default function ApplyModal({ targetPadrinho, isOpen, onClose }) {
     const [feedback, setFeedback] = useState({ msg: '', type: '' });
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    // Load saved data from LocalStorage when the component mounts
+    useEffect(() => {
+        const savedNome = localStorage.getItem('apadrinhamento_draft_nome');
+        const savedSobre = localStorage.getItem('apadrinhamento_draft_sobre');
+        if (savedNome) setNome(savedNome);
+        if (savedSobre) setSobre(savedSobre);
+    }, []);
+
+    // Manage body scroll and reset feedback on open
     useEffect(() => {
         if (isOpen) {
-            setNome('');
-            setSobre('');
             setFeedback({ msg: '', type: '' });
             setIsSubmitting(false);
             document.body.style.overflow = 'hidden';
@@ -18,6 +25,16 @@ export default function ApplyModal({ targetPadrinho, isOpen, onClose }) {
         }
     }, [isOpen]);
 
+    const handleNomeChange = (e) => {
+        setNome(e.target.value);
+        localStorage.setItem('apadrinhamento_draft_nome', e.target.value);
+    };
+
+    const handleSobreChange = (e) => {
+        setSobre(e.target.value);
+        localStorage.setItem('apadrinhamento_draft_sobre', e.target.value);
+    };
+
     const handleSubmit = async () => {
         if (!nome.trim()) {
             setFeedback({ msg: 'Por favor, informe seu nome.', type: 'error' });
@@ -25,7 +42,7 @@ export default function ApplyModal({ targetPadrinho, isOpen, onClose }) {
         }
 
         setIsSubmitting(true);
-        setFeedback({ msg: 'Enviando...', type: '' });
+        setFeedback({ msg: 'Enviando sua candidatura...', type: '' });
 
         try {
             const res = await fetch('/api/candidaturas', {
@@ -61,16 +78,29 @@ export default function ApplyModal({ targetPadrinho, isOpen, onClose }) {
 
                 <div className="apply-field">
                     <label className="apply-label">Meu nome</label>
-                    <input className="apply-input" type="text" value={nome} onChange={e => setNome(e.target.value)} disabled={isSubmitting} />
+                    <input
+                        className="apply-input"
+                        type="text"
+                        value={nome}
+                        onChange={handleNomeChange}
+                        disabled={isSubmitting}
+                        placeholder="Como devemos te chamar?"
+                    />
                 </div>
 
                 <div className="apply-field">
                     <label className="apply-label">Sobre mim</label>
-                    <textarea className="apply-textarea" value={sobre} onChange={e => setSobre(e.target.value)} disabled={isSubmitting}></textarea>
+                    <textarea
+                        className="apply-textarea"
+                        value={sobre}
+                        onChange={handleSobreChange}
+                        disabled={isSubmitting}
+                        placeholder="Conte um pouco sobre suas expectativas, hobbies, etc. Este texto será enviado para o seu padrinho!"
+                    ></textarea>
                 </div>
 
                 <button className="btn-submit" onClick={handleSubmit} disabled={isSubmitting}>
-                    Enviar candidatura
+                    {isSubmitting ? 'Processando...' : 'Enviar candidatura'}
                 </button>
 
                 {feedback.msg && <p className={`apply-feedback ${feedback.type}`}>{feedback.msg}</p>}
