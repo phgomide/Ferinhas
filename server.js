@@ -15,20 +15,28 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       "default-src": ["'self'"],
-      "script-src": ["'self'", "'unsafe-inline'"],
-      "script-src-attr": ["'unsafe-inline'"],
-      "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      "script-src": ["'self'"], 
+      "style-src": ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"],
       "font-src": ["'self'", "https://fonts.gstatic.com", "data:"],
-      "img-src": ["'self'", "data:", "blob:", "https:", "http:"]
+      "img-src": ["'self'", "data:", "blob:", "https:", "http:"],
+      "connect-src": ["'self'"] 
     }
   }
 }));
 
 app.use(express.json({ limit: '10kb' }));
-app.use('/images', express.static(path.join(__dirname, 'images')));
-app.use(sessionConfig);
 
 app.use('/api', routes);
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Legacy support
+
+app.use(express.static(path.join(__dirname, 'client', 'dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
+
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
