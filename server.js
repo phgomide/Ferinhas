@@ -11,7 +11,7 @@ const app = express();
 app.set('trust proxy', 1);
 
 app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" }, // <-- ESTA É A LINHA QUE CORRIGE O ERRO
+  crossOriginResourcePolicy: { policy: "cross-origin" },
   contentSecurityPolicy: {
     directives: {
       "default-src": ["'self'"],
