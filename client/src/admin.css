@@ -1,0 +1,155 @@
+.admin-container {
+    display: flex;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3rem 2rem 6rem;
+}
+
+.admin-sidebar {
+    flex-shrink: 0;
+    width: 220px;
+}
+
+.admin-sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: sticky;
+    top: 2rem;
+}
+
+.admin-sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.admin-sidebar-link:hover {
+    background: var(--surface);
+    color: var(--text);
+    border-color: var(--border2);
+}
+
+.admin-sidebar-link.active {
+    background: rgba(74, 143, 255, 0.1);
+    color: var(--accent2);
+    border-color: var(--accent3);
+    box-shadow: 0 0 15px rgba(74, 143, 255, 0.1);
+}
+
+.admin-sidebar-link svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 2;
+    flex-shrink: 0;
+}
+
+.admin-content {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.admin-view-header {
+    margin-bottom: 2rem;
+}
+
+.admin-view-title {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
+}
+
+.admin-view-subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+}
+
+.user-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.user-controls .apply-input, .user-controls .apply-input {
+    background: var(--surface2);
+    height: 40px;
+    padding: 0 1rem;
+}
+
+.kebab-menu-container {
+    position: relative;
+}
+
+.kebab-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.kebab-button:hover {
+    background: var(--surface2);
+}
+
+.kebab-dropdown {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    z-index: 10;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    padding: 0.5rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    width: 180px;
+}
+
+.kebab-dropdown-item {
+    background: none;
+    border: none;
+    color: var(--muted2);
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+}
+
+.kebab-dropdown-item:hover {
+    background: var(--surface2);
+    color: var(--text);
+}
+
+.kebab-dropdown-item.danger:hover {
+    background: rgba(248, 113, 113, 0.1);
+    color: var(--red);
+}
