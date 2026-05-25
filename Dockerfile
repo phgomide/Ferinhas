@@ -6,12 +6,18 @@ RUN npm --prefix client install
 RUN npm --prefix client run build
 
 FROM node:20-slim
-RUN apt-get update && apt-get install -y python3 make g++ # Necessário para compilar o sqlite3
-WORKDIR /app
-COPY --from=build-env /app .
 
+RUN apt-get update && apt-get install -y python3 make g++ 
+
+WORKDIR /app
+
+COPY package*.json ./
 RUN npm install --production
-RUN npm --prefix ./node_modules/sqlite3 install
+
+COPY . .
+COPY --from=build-env /app/client/dist ./client/dist
+
+RUN npm rebuild sqlite3
 
 RUN mkdir -p /data/images
 
